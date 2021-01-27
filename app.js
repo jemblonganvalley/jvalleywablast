@@ -1,3 +1,4 @@
+require("dotenv").config();
 const qrcode = require("qrcode");
 const express = require("express");
 const cors = require("cors");
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 5000;
 const io = socketIo(server);
 var isLogin = false;
 var isScan = false;
+const client = new Client();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -49,7 +51,7 @@ app.get("/", hasLogin, (req, res) => {
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
 
-  if (username === "fadliselaz" && password === "1") {
+  if (username === process.env.USERNAME && password === process.env.PASSWORD) {
     res.json({
       result: true,
       message: "login berhasil",
@@ -101,7 +103,6 @@ Terimakasih ${name}
         res.status(200).json({
           message: `pesan terkirim ke : ${number}`,
         });
-        socket.emit("log", `Pesan terkirim ke ${number.replace("@c.us", "")}`);
       })
       .catch((err) => console.log(err));
   });
@@ -110,12 +111,12 @@ Terimakasih ${name}
 app.use(express.static("public"));
 
 //baca ketika ada session
-const SESSION_FILE_PATH = "./session.json";
-let sessionCfg;
-if (fs.existsSync(SESSION_FILE_PATH)) {
-  sessionCfg = require(SESSION_FILE_PATH);
-  // console.log(sessionCfg);
-}
+// const SESSION_FILE_PATH = "./session.json";
+// let sessionCfg;
+// if (fs.existsSync(SESSION_FILE_PATH)) {
+//   sessionCfg = require(SESSION_FILE_PATH);
+//   // console.log(sessionCfg);
+// }
 
 // kalo dah scan
 // const client = new Client({
@@ -123,7 +124,6 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 // });
 
 //kalo belom scan nyalain ini
-const client = new Client();
 
 client.initialize();
 

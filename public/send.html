@@ -13,6 +13,20 @@
         <span class="msg">
           <small> made with love by <strong>fadliselaz</strong> </small>
         </span>
+        <span class="navbar_menu">
+            <button
+              onclick="logout()"
+              style="
+                border: none;
+                outline: none;
+                padding: 4 10px;
+                background-color: orange;
+                color: white;
+                margin-left: 10px;
+              "
+            >
+              logout
+            </button>
       </nav>
 
       <form class="form_login" onsubmit="handleSend(event)">
@@ -75,6 +89,11 @@
             console.log(data);
           })
           .catch((err) => console.log(err));
+      };
+
+
+      window.logout = () => {
+        window.location.href = "/logout";
       };
     </script>
   </body>
