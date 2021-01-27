@@ -61,12 +61,12 @@ app.post("/api/login", (req, res) => {
     io.on("connection", (socket) => {
       socket.emit("isLogin", "true");
     });
+  } else {
+    res.json({
+      message: "operation not permited.",
+    });
+    isLogin = false;
   }
-  res.json({
-    message: "operation not permited.",
-  });
-  isLogin = false;
-  console.log(isLogin);
 });
 
 app.get("/send", checkLogin, (req, res) => {
@@ -87,13 +87,11 @@ app.post("/api/blast", (req, res) => {
     const number = nm.replace("0", "62") + "@c.us";
     const name = e.split(" ")[1];
     const msg = `Hello *${name}*..
-Kamu mendapatkan pesan ini karena kamu terdaftar
-menjadi *LANEIGE INDONESIA Member*.
-    
-Untuk tetap mendapatkan informasi mengenai Promo,
-Event dan Produk menarik dari LANEIGE,
+Kamu mendapatkan pesan ini karena kamu terdaftar menjadi *LANEIGE INDONESIA Member*.
+
+Untuk tetap mendapatkan informasi mengenai Promo,Event dan Produk menarik dari LANEIGE,
 silakan balas dengan *Ya*
-    
+
 Terimakasih ${name}
       `;
     // console.log(e.split(" ")[0]);
@@ -191,7 +189,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.post("/send", (req, res) => {
+app.post("/api/send", (req, res) => {
   const { number, name } = req.body;
   var message = `Hello *${name}*..
 Kamu mendapatkan pesan ini karena kamu terdaftar
@@ -219,11 +217,9 @@ app.post("/sendTest", (req, res) => {
 
   const { number, name } = req.body;
   var message = `Hello *${name}*..
-Kamu mendapatkan pesan ini karena kamu terdaftar
-menjadi *LANEIGE INDONESIA Member*.
+Kamu mendapatkan pesan ini karena kamu terdaftar menjadi *LANEIGE INDONESIA Member*.
 
-Untuk tetap mendapatkan informasi mengenai Promo,
-Event dan Produk menarik dari LANEIGE,
+Untuk tetap mendapatkan informasi mengenai Promo, Event dan Produk menarik dari LANEIGE,
 silakan balas dengan *Ya*
 
 Terimakasih ${name}`;
