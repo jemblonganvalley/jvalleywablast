@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wa fadliselaz</title>
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body>
+    <div class="app">
+      <nav class="navbar">
+        <h1 class="brand"><strong> JVALLEY</strong> WA-BLAST</h1>
+        <span class="msg">
+          <small> made with love by <strong>fadliselaz</strong> </small>
+        </span>
+      </nav>
+
+      <form class="form_login" onsubmit="handleLogin(event)">
+        <label for="username">username</label>
+        <input type="text" id="username" />
+        <label for="password">password</label>
+        <input type="password" id="password" />
+        <button type="submit">login</button>
+      </form>
+    </div>
+
+    <div class="video_container">
+      <video
+        loop
+        muted
+        autoplay
+        poster="img/videoframe.jpg"
+        class="back_img"
+        width="100%"
+      >
+        <source
+          src="https://static.videezy.com/system/resources/previews/000/018/362/original/ICON-VERSION6.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"
+      integrity="sha512-Jq1JnVXlkYQOYQpz31qIV/0l67d97J9I6sbILtfiSYX00Isr2zK7XDRmHW8d2iBTwNZfL7sHkHGT0EzLs90jdw=="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      const kodekode = document.getElementById("qrCode");
+      $(document).ready(function () {
+        var socket = io.connect("http://localhost:5000", {
+          path: "/socket.io",
+        });
+
+        socket.on("message", function (msg) {
+          console.log(msg);
+          $(".info").html($("<h3>").text(msg));
+        });
+
+        socket.on("success", function (msg) {
+          console.log(msg);
+          $("#qrCode").html($("<h3>").text("scan code berhasil"));
+        });
+
+        socket.on("qr", function (msg) {
+          kodekode.innerHTML = `
+            <img src="${msg}"/>
+          `;
+        });
+
+        socket.on("log", function (log) {
+          console.log(log);
+          $(".info").html($("<h3>").text(log));
+        });
+
+        socket.on("ready", (msg) => {
+          window.location.href = "/send";
+        });
+      });
+
+      window.handleLogin = async (event) => {
+        event.preventDefault();
+        const input_username = await document.getElementById("username");
+        const input_password = await document.getElementById("password");
+        fetch("http://localhost:5000/api/login", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: input_username.value,
+            password: input_password.value,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            alert(data.message);
+            window.location.href = "/scan";
+          })
+          .catch((err) => console.log(err));
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wa fadliselaz</title>
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body>
+    <div class="app">
+      <nav class="navbar">
+        <h1 class="brand"><strong> JVALLEY</strong> WA-BLAST</h1>
+        <span class="msg">
+          <small> made with love by <strong>fadliselaz</strong> </small>
+        </span>
+        <span class="navbar_menu">
+          <button
+            onclick="logout()"
+            style="
+              border: none;
+              outline: none;
+              padding: 4 10px;
+              background-color: orange;
+              color: white;
+              margin-left: 10px;
+            "
+          >
+            logout
+          </button>
+        </span>
+      </nav>
+      <h3>wellcome</h3>
+      <div id="qrCode">
+        <img src="./media/Rolling-1s-200px.svg" alt="" width="60px" />
+      </div>
+      <h3 class="info">Info</h3>
+      <ul class="logs"></ul>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"
+      integrity="sha512-Jq1JnVXlkYQOYQpz31qIV/0l67d97J9I6sbILtfiSYX00Isr2zK7XDRmHW8d2iBTwNZfL7sHkHGT0EzLs90jdw=="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      const kodekode = document.getElementById("qrCode");
+      $(document).ready(function () {
+        var socket = io.connect("http://localhost:5000", {
+          path: "/socket.io",
+        });
+
+        socket.on("message", function (msg) {
+          console.log(msg);
+          $(".info").html($("<h3>").text(msg));
+        });
+
+        socket.on("success", function (msg) {
+          console.log(msg);
+          $("#qrCode").html($("<h3>").text("scan code berhasil"));
+        });
+
+        socket.on("qr", function (msg) {
+          kodekode.innerHTML = `
+            <img src="${msg}"/>
+          `;
+        });
+
+        socket.on("log", function (log) {
+          console.log(log);
+          $(".info").html($("<h3>").text(log));
+        });
+
+        socket.on("ready", (msg) => {
+          window.location.href = "/send";
+        });
+      });
+
+      window.logout = () => {
+        window.location.href = "/logout";
+      };
+    </script>
+  </body>
+</html>

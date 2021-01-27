@@ -1,0 +1,8 @@
+###
+POST http://localhost:5000/send
+Content-Type: application/json
+
+{
+    "number" : "6289638274427@c.us",
+    "name" : "fadliselaz"
+}

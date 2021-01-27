@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: -1;
+}
+
+.back_img {
+  top: 0;
+  left: 0;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.2;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.navbar {
+  width: 100vw;
+  height: 8vh;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 3px 8px 3px rgba(0, 0, 0, 0.1);
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 200;
+}
+
+.msg {
+  margin-left: auto;
+}
+
+#qrCode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form_login {
+  width: 25vw;
+  height: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  gap: 20px;
+  box-shadow: 5px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.form_login input {
+  height: 30px;
+  border: 0.5px dotted gray;
+  outline: none;
+  margin-top: -8px;
+  padding: 0 8px;
+  font-size: 1rem;
+}
+
+.form_login button {
+  height: 35px;
+  border: none;
+  outline: none;
+  background-color: black;
+  color: white;
+  /* font-size: 1rem; */
+  text-transform: uppercase;
+}
+
+#message {
+  padding: 10px 10px;
+}
+
+@media only screen and (max-width: 900px) {
+  .navbar {
+    display: none;
+  }
+  .form_login {
+    width: 50vw;
+  }
+}
