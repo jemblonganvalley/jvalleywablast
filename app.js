@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 const io = socketIo(server);
 var isLogin = false;
 var isScan = false;
-const client = new Client();
+var client
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -47,15 +47,15 @@ const SESSION_FILE_PATH = "./session.json";
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionCfg = require(SESSION_FILE_PATH);
-  // console.log(sessionCfg);
+  console.log(sessionCfg);
+  client = new Client({
+    session: sessionCfg,
+  });
+
+} else {
+  client = new Client();
 }
 
-// kalo dah scan
-// const client = new Client({
-//   session: sessionCfg,
-// });
-
-//kalo belom scan nyalain ini
 
 client.initialize();
 

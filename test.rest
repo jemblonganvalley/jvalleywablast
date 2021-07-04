@@ -3,6 +3,6 @@ POST http://localhost:5000/api/send
 Content-Type: application/json
 
 {
-    "number" : "6289638274427@c.us",
+    "number" : "6281213655573@c.us",
     "name" : "bunda"
 }

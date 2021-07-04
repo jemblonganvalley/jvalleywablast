@@ -1,19 +1,24 @@
 const qrcode = require("qrcode-terminal");
 const { Client, MessageMedia } = require("whatsapp-web.js");
 const fs = require("fs");
+const express = require("express")
+
+exports.client
 
 //baca ketika ada session
 const SESSION_FILE_PATH = "./session.json";
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionCfg = require(SESSION_FILE_PATH);
+  // Use the saved values
+  client = new Client({
+    // puppeteer: { headless: true },
+    session: sessionCfg,
+  });
+} else {
+  client = new Client();
 }
 
-// Use the saved values
-const client = new Client({
-  //   puppeteer: { headless: true },
-  session: sessionCfg,
-});
 
 client.initialize();
 
@@ -22,7 +27,7 @@ client.on("qr", (qr) => {
   qrcode.generate(qr, { small: true });
 });
 
-//setelah scan, akan disimpan ke file session.js
+//setelah scan, akan membuat sebuah file bernama session.json
 client.on("authenticated", (session) => {
   fs.writeFile("./session.json", JSON.stringify(session), function (err) {
     if (err) {
@@ -56,8 +61,11 @@ client.on("message", (message) => {
   const mb = message.body.toLowerCase();
   if (mb) {
     message.reply(`
-_Hape sedang tertinggal, nanti di hubungi kembali_
-*Suhartoyo*
+_Sorry lagi sibuk bray.._
+*Ahmad saputra*
     `);
   }
 });
+
+
+
